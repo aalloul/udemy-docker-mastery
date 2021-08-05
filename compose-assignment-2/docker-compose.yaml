@@ -1,0 +1,30 @@
+version: '2'
+
+services:
+  drupal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: custom-drupal
+    ports:
+      - 8080:80
+    volumes:
+      - drupal-modules:/var/www/html/modules
+      - drupal-profiles:/var/www/html/modules
+      - drupal-themes:/var/www/html/themes
+      - drupal-sites:/var/www/html/sites
+  postgres:
+    image: postgres:12.1-alpine
+    environment:
+      POSTGRES_PASSWORD: pass
+      POSTGRES_DB: drupal
+      POSTGRES_USER: user
+    volumes:
+      - drupal-data:/var/lib/postgresql/data
+
+volumes:
+  drupal-modules:
+  drupal-profiles:
+  drupal-themes:
+  drupal-sites:
+  drupal-data:
